@@ -44,5 +44,24 @@ class TestGetFileContent(unittest.TestCase):
         print(result)
         self.assertIsInstance(result, str)
 
+class TestWriteFile(unittest.TestCase):
+    def test_write_existing_file(self):
+        result = write_file("calculator", "lorem.txt", "wait, this isn't lorem ipsum")
+        print(result)
+        self.assertIsInstance(result, str)
+        self.assertTrue(result.startswith("Successfully") or result.startswith("Error:"))
+
+    def test_write_nested_file(self):
+        result = write_file("calculator", "pkg/morelorem.txt", "lorem ipsum dolor sit amet")
+        print(result)
+        self.assertIsInstance(result, str)
+        self.assertTrue(result.startswith("Successfully") or result.startswith("Error:"))
+
+    def test_write_outside_directory(self):
+        result = write_file("calculator", "/tmp/temp.txt", "this should not be allowed")
+        print(result)
+        self.assertIsInstance(result, str)
+        self.assertTrue(result.startswith("Error:"))
+
 if __name__ == "__main__":
     unittest.main()
